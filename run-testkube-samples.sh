@@ -123,6 +123,7 @@ helm repo add kubeshop https://kubeshop.github.io/helm-charts --kubeconfig="$HOM
 helm repo update --kubeconfig="$HOME/.kube/config"
 
 echo "[INFO] Pre-applying Testkube CRD schemas..."
+kubectl create namespace testkube --dry-run=client -o yaml | kubectl apply -f - --kubeconfig="$HOME/.kube/config"
 helm template testkube-op kubeshop/testkube-operator --namespace testkube --create-namespace --set installCRD=true --kubeconfig="$HOME/.kube/config" | kubectl apply -f - --kubeconfig="$HOME/.kube/config"
 
 echo "[INFO] Deploying Testkube control plane components..."
